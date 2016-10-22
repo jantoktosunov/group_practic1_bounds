@@ -20,6 +20,25 @@ void thresh_callback(int, void* )
     Canny( inv, canny_output, thresh, thresh*2, 3 );
     /// Find contours
     findContours( canny_output, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0, 0) );
+    /// Draw contours
+    //Mat drawing = Mat::zeros( canny_output.size(), CV_8UC3 );
+    //Mat drawing = Mat::zeros( canny_output.size(), CV_8UC3 );
+    double mydata[1];
+    Mat drawing = Mat(1,1, CV_64F, mydata);
+    drawing = Mat::zeros(canny_output.size(),CV_8UC3);
+    for( int i = 0; i< contours.size(); i++ )
+    {
+        //Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
+        Scalar color = Scalar(0,0,255);
+       // drawContours( inv, contours, i,color , 2, 8, hierarchy, 0, Point() );
+        //drawContours(inv,contours,i,color,3);
+        drawContours(drawing, contours, i,color , 1, 1, hierarchy, 0, Point() );
+    }
+    //drawContours(inv,contours,,);
+
+    /// Show in a window
+    namedWindow( "Contours", CV_WINDOW_AUTOSIZE );
+    imshow( "Contours", drawing );
 
 
 
