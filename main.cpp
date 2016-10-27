@@ -9,6 +9,7 @@ int max_thresh = 255;
 RNG rng(12345);
 Mat src, src_gray;
 Mat inv;
+cv::Mat binaryMat(inv.size(), inv.type());
 
 void thresh_callback(int, void* )
 {
@@ -43,6 +44,38 @@ void thresh_callback(int, void* )
 
 
 }
+void find_countor(){
+    Mat p = binaryMat;
+    for(int i =0; i < inv.rows; i++){//Заполняет черным
+        for(int k = 0; k <inv.cols; k ++){
+            p.at<uchar>(i,k)=0;
+
+
+        }
+
+    }
+    for(int i =0; i < inv.rows; i++){//Рисует границы
+        for(int k = 0; k <inv.cols; k ++){
+            if(inv.at<uchar>(i,k)==0&&inv.at<uchar>(i,k-1)==255){
+                p.at<uchar>(i,k) = 255;
+            }
+            if(inv.at<uchar>(i,k)==255&&inv.at<uchar>(i,k-1)==0){
+                p.at<uchar>(i,k) = 255;
+            }
+            if(inv.at<uchar>(i,k)==255&&inv.at<uchar>(i-1,k)==0){
+                p.at<uchar>(i,k) = 255;
+            }
+            if(inv.at<uchar>(i,k)==0&&inv.at<uchar>(i-1,k)==255){
+                p.at<uchar>(i,k) = 255;
+            }
+
+
+        }
+
+    }
+    //p.at<uchar>(1,23) = 255;
+    imshow("Borders",p);
+}
 
 int main(int argc, char** argv) {
 
@@ -59,9 +92,16 @@ int main(int argc, char** argv) {
     src_gray = src_gray > 128; // Tresholding – Определяем порог
     imshow("",src_gray);
     bitwise_not(src_gray,inv);
+    //Binary image
+
+
+    //Apply thresholding
+    cv::threshold(inv, binaryMat, 100, 255, cv::THRESH_BINARY);
     imshow("INV",inv);
+    //imshow("2bit",binaryMat);
     //createTrackbar( " Canny thresh:", "Source", &thresh, max_thresh, thresh_callback );
-    thresh_callback(0,0);
+    //thresh_callback(0,0);
+    find_countor();
 
     waitKey(0);
     return(0);
