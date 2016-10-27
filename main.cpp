@@ -73,6 +73,15 @@ void find_countor(){
         }
 
     }
+    for(int i = 0;i<inv.rows;i++){//Находит края рисунка
+
+        for(int k = 0;k<inv.cols;k++){
+            p.at<uchar>(i,0) = 255;
+            p.at<uchar>(0,k) = 255;
+            p.at<uchar>(i,255) = 255;
+            p.at<uchar>(255,k) = 255;
+        }
+    }
 
     imshow("Borders",p);
 }
