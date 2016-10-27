@@ -73,7 +73,7 @@ void find_countor(){
         }
 
     }
-    //p.at<uchar>(1,23) = 255;
+
     imshow("Borders",p);
 }
 
@@ -95,12 +95,10 @@ int main(int argc, char** argv) {
     //Binary image
 
 
-    //Apply thresholding
-    cv::threshold(inv, binaryMat, 100, 255, cv::THRESH_BINARY);
+
+    cv::threshold(inv, binaryMat, 100, 255, cv::THRESH_BINARY);//делает рисунок двубитным
     imshow("INV",inv);
-    //imshow("2bit",binaryMat);
-    //createTrackbar( " Canny thresh:", "Source", &thresh, max_thresh, thresh_callback );
-    //thresh_callback(0,0);
+
     find_countor();
 
     waitKey(0);
